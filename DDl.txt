@@ -1,0 +1,147 @@
+sql> CREATE TABLE person(personId int PRIMARY KEY,Name varchar(100) NOT NULL,
+Aadhaar int NOT NULL UNIQUE,Age int check(age>18));
+ERROR 1046 (3D000): No database selected
+mysql> USE EMPLOYEE;
+ERROR 1049 (42000): Unknown database 'EMPLOYEE'
+mysql> CREATE DATABASE persondb;
+Query OK, 1 row affected (0.16 sec)
+
+mysql> USE persondb;
+Database changed
+mysql> CREATE TABLE person(personId int PRIMARY KEY,Name varchar(100) NOT NULL,
+Aadhaar int NOT NULL UNIQUE,Age int check(age>18));
+Query OK, 0 rows affected (1.37 sec)
+
+mysql> show tables;
++--------------------+
+| Tables_in_persondb |
++--------------------+
+| person             |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> desc persondb;
+ERROR 1146 (42S02): Table 'persondb.persondb' doesn't exist
+mysql> DESC persondb;
+ERROR 1146 (42S02): Table 'persondb.persondb' doesn't exist
+mysql> desc person;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| personId | int          | NO   | PRI | NULL    |       |
+| Name     | varchar(100) | NO   |     | NULL    |       |
+| Aadhaar  | int          | NO   | UNI | NULL    |       |
+| Age      | int          | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------
+mysql> CREATE TABLE orders(orderId int NOT NULL,orderno int  NOT NULL,personId
+int,PRIMARY KEY(orderId),FOREIGN KEY(personId)REFERENCES person(personId));
+Query OK, 0 rows affected (1.74 sec)
+
+mysql> DESC orders;
++----------+------+------+-----+---------+-------+
+| Field    | Type | Null | Key | Default | Extra |
++----------+------+------+-----+---------+-------+
+| orderId  | int  | NO   | PRI | NULL    |       |
+| orderno  | int  | NO   |     | NULL    |       |
+| personId | int  | YES  | MUL | NULL    |       |
++----------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc employee;
+ERROR 1146 (42S02): Table 'persondb.employee' doesn't exist
+mysql> CREATE TABLE employee(emp_no varchar(100) NOT NULL PRIMARY KEY,emp_name
+varchar(100),dob DATE,address TEXT,mobile_no int,dept_no varchar(100),salary int);
+Query OK, 0 rows affected (0.65 sec)
+
+mysql> desc employee;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| emp_no    | varchar(100) | NO   | PRI | NULL    |       |
+| emp_name  | varchar(100) | YES  |     | NULL    |       |
+| dob       | date         | YES  |     | NULL    |       |
+| address   | text         | YES  |     | NULL    |       |
+| mobile_no | int          | YES  |     | NULL    |       |
+| dept_no   | varchar(100) | YES  |     | NULL    |       |
+| salary    | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> ALTER TABLE employee ADD PRIMARY KEY(emp_no);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> ALTER TABLE employee ADD PRIMARY KEY(dept_no);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> CREATE TABLE department(dept_no varchar(100) NOT NULL PRIMARY KEY,dept_name varchar(100),location varchar(100));
+Query OK, 0 rows affected (1.10 sec)
+
+mysql> ALTER TABLE employee ADD PRIMARY KEY(dept_no);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> ALTER TABLE department ADD PRIMARY KEY(dept_no);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> drop table department;
+Query OK, 0 rows affected (0.39 sec)
+
+mysql> CREATE TABLE department(dept_no varchar(100) NOT NULL,dept_name varchar(100),location varchar(100));
+Query OK, 0 rows affected (0.74 sec)
+
+mysql> ALTER TABLE department ADD PRIMARY KEY(dept_no);
+Query OK, 0 rows affected (1.91 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee ADD CONSTRAINT dept_no FOREIGN KEY(dept_no)REFRENCES department(dept_no)ON DELETE CASCADE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFRENCES department(dept_no)ON DELETE CASCADE' at line 1
+mysql> ALTER TABLE employee ADD CONSTRAINT dept_no FOREIGN KEY(dept_no)REFRENCES department(dept_no)ON DELETE CASCADE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'REFRENCES department(dept_no)ON DELETE CASCADE' at line 1
+mysql> DESC department;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| dept_no   | varchar(100) | NO   | PRI | NULL    |       |
+| dept_name | varchar(100) | YES  |     | NULL    |       |
+| location  | varchar(100) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.01 sec)
+
+mysql> drop table department;
+Query OK, 0 rows affected (0.51 sec)
+
+mysql> CREATE TABLE department(dept_no varchar(100) NOT NULL,dept_name varchar(100),location varchar(100));
+Query OK, 0 rows affected (1.79 sec)
+
+mysql> desc department;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| dept_no   | varchar(100) | NO   |     | NULL    |       |
+| dept_name | varchar(100) | YES  |     | NULL    |       |
+| location  | varchar(100) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+ ALTER TABLE department ADD PRIMARY KEY(dept_no);
+Query OK, 0 rows affected (1.77 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee ADD CONSTRAINT fk_dept_no FOREIGN KEY(dept_no)REFERENCES department(dept_no)ON DELETE CASCADE;
+Query OK, 0 rows affected (2.60 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| emp_no    | varchar(100) | NO   | PRI | NULL    |       |
+| emp_name  | varchar(100) | YES  |     | NULL    |       |
+| dob       | date         | YES  |     | NULL    |       |
+| address   | text         | YES  |     | NULL    |       |
+| mobile_no | int          | YES  |     | NULL    |       |
+| dept_no   | varchar(100) | YES  | MUL | NULL    |       |
+| salary    | int          | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> alter table employee ADD FOREIGN KEY(mobile_no);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> 
+
+

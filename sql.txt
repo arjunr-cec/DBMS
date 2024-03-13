@@ -1,0 +1,289 @@
+
+mysql> CREATE DATABASE college_db;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE college_db;
+Database changed
+mysql> CREATE TABLE student(roll_no INT(255) PRIMARY KEY,Name VARCHAR (255),dob DATE,Adress TEXT,Phone_no VARCHAR(255),blood_group VARCHAR(255));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_college_db |
++----------------------+
+| student              |
++----------------------+
+1 row in set (0.00 sec)
+
+mysql> desc student;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| roll_no     | int(255)     | NO   | PRI | NULL    |       |
+| Name        | varchar(255) | YES  |     | NULL    |       |
+| dob         | date         | YES  |     | NULL    |       |
+| Adress      | text         | YES  |     | NULL    |       |
+| Phone_no    | varchar(255) | YES  |     | NULL    |       |
+| blood_group | varchar(255) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+6 rows in set (0.01 sec)
+
+mysql> ALTER TABLE student DROP column blood_grp;
+ERROR 1091 (42000): Can't DROP 'blood_grp'; check that column/key exists
+mysql> ALTER TABLE student DROP column blood_group;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| roll_no  | int(255)     | NO   | PRI | NULL    |       |
+| Name     | varchar(255) | YES  |     | NULL    |       |
+| dob      | date         | YES  |     | NULL    |       |
+| Adress   | text         | YES  |     | NULL    |       |
+| Phone_no | varchar(255) | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> ALTER TABLE student ADD adharno INT;
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| roll_no  | int(255)     | NO   | PRI | NULL    |       |
+| Name     | varchar(255) | YES  |     | NULL    |       |
+| dob      | date         | YES  |     | NULL    |       |
+| Adress   | text         | YES  |     | NULL    |       |
+| Phone_no | varchar(255) | YES  |     | NULL    |       |
+| adharno  | int(11)      | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> ALTER TABLE student MODIFY COLUMN Phone_no INT;
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc student;
++----------+--------------+------+-----+---------+-------+
+| Field    | Type         | Null | Key | Default | Extra |
++----------+--------------+------+-----+---------+-------+
+| roll_no  | int(255)     | NO   | PRI | NULL    |       |
+| Name     | varchar(255) | YES  |     | NULL    |       |
+| dob      | date         | YES  |     | NULL    |       |
+| Adress   | text         | YES  |     | NULL    |       |
+| Phone_no | int(11)      | YES  |     | NULL    |       |
+| adharno  | int(11)      | YES  |     | NULL    |       |
++----------+--------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> CREATE TABLE course(course_id INT(255) PRIMARY KEY,course_name VARCHAR (255),course_duration VARCHAR(255));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> show tables;
++----------------------+
+| Tables_in_college_db |
++----------------------+
+| course               |
+| student              |
++----------------------+
+2 rows in set (0.00 sec)
+
+mysql> desc course;
++-----------------+--------------+------+-----+---------+-------+
+| Field           | Type         | Null | Key | Default | Extra |
++-----------------+--------------+------+-----+---------+-------+
+| course_id       | int(255)     | NO   | PRI | NULL    |       |
+| course_name     | varchar(255) | YES  |     | NULL    |       |
+| course_duration | varchar(255) | YES  |     | NULL    |       |
++-----------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> DROP TABLE student,course;
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> DROP DATABASE college_db;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> CREATE DATABASE emp;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE DATABASE emp;
+ERROR 1049 (42000): Unknown database 'DATABASE'
+mysql> USE emp;
+Database changed
+mysql> CREATE TABLE employee(emp_no VARCHAR(255) PRIMARY KEY,emp_name VARCHAR(255),dob DATE,adress TEXT,mobile_no INT,dept_no VARCHAR(10),salary INT);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> CREATE TABLE department(dept_no VARCHAR(255),dept_name VARCHAR(255),location VARCHAR(255));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> SHOW TABLES;
++---------------+
+| Tables_in_emp |
++---------------+
+| department    |
+| employee      |
++---------------+
+2 rows in set (0.00 sec)
+
+mysql> ALTER TABLE department ADD KEY (dept_no);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee ADD PRIMARY KEY (emp_no);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> ALTER TABLE employee ADD designation VARCHAR(255);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE department DROP COLUMN location;
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc department;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| dept_no   | varchar(255) | YES  | MUL | NULL    |       |
+| dept_name | varchar(255) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc employee;
++-------------+--------------+------+-----+---------+-------+
+| Field       | Type         | Null | Key | Default | Extra |
++-------------+--------------+------+-----+---------+-------+
+| emp_no      | varchar(255) | NO   | PRI | NULL    |       |
+| emp_name    | varchar(255) | YES  |     | NULL    |       |
+| dob         | date         | YES  |     | NULL    |       |
+| adress      | text         | YES  |     | NULL    |       |
+| mobile_no   | int(11)      | YES  |     | NULL    |       |
+| dept_no     | varchar(10)  | YES  |     | NULL    |       |
+| salary      | int(11)      | YES  |     | NULL    |       |
+| designation | varchar(255) | YES  |     | NULL    |       |
++-------------+--------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> DROP DATABASE emp;
+Query OK, 2 rows affected (0.06 sec)
+
+mysql> USE DATABASE dbsd;
+ERROR 1049 (42000): Unknown database 'DATABASE'
+mysql> CREATE DATABASE dbsd;
+Query OK, 1 row affected (0.00 sec)
+
+mysql> USE dbsd;
+Database changed
+mysql> CREATE TABLE persons(person_id INT PRIMARY KEY,name VARCHAR(255) NOT NULL,aadhar NUMERIC(12,0) NOT NULL UNIQUE,age INT CHECK(age > 18));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc persons;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| person_id | int(11)       | NO   | PRI | NULL    |       |
+| name      | varchar(255)  | NO   |     | NULL    |       |
+| aadhar    | decimal(12,0) | NO   | UNI | NULL    |       |
+| age       | int(11)       | YES  |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+
+mysql> CREATE TABLE oders(oder_id INT PRIMARY KEY,odernumber VARCHAR(255) NOT NULL,person_id INT,FOREIGN KEY (person_id) REFERENCES persons(person_id));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc persons;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| person_id | int(11)       | NO   | PRI | NULL    |       |
+| name      | varchar(255)  | NO   |     | NULL    |       |
+| aadhar    | decimal(12,0) | NO   | UNI | NULL    |       |
+| age       | int(11)       | YES  |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc oders;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| oder_id    | int(11)      | NO   | PRI | NULL    |       |
+| odernumber | varchar(255) | NO   |     | NULL    |       |
+| person_id  | int(11)      | YES  | MUL | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> 
+
+mysql> CREATE TABLE employee(emp_no VARCHAR(255) PRIMARY KEY,emp_name VARCHAR(255),dob DATE,adress TEXT,mobile_no INT,dept_no VARCHAR(10),salary INT);
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> CREATE TABLE department(dept_no VARCHAR(255),dept_name VARCHAR(255),location VARCHAR(255));
+Query OK, 0 rows affected (0.21 sec)
+
+mysql> ALTER TABLE department ADD PRIMARY KEY(dept_no);
+Query OK, 0 rows affected (0.08 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> ALTER TABLE employee ADD CONSTRIANT fk_dept_no FOREIGN KEY(dept_no)REFERENCES department(dept_no)ON DELETE CASCADE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fk_dept_no FOREIGN KEY(dept_no)REFERENCES department(dept_no)ON DELETE CASCADE' at line 1
+mysql> ALTER TABLE employee ADD CONSTRAIANT fk_dept_no FOREIGN KEY(dept_no)REFERENCES department(dept_no)ON DELETE CASCADE;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fk_dept_no FOREIGN KEY(dept_no)REFERENCES department(dept_no)ON DELETE CASCADE' at line 1
+mysql> ALTER TABLE employee ADD CONSTRAINT fk_dept_no FOREIGN KEY(dept_no)REFERENCES department(dept_no)ON DELETE CASCADE;
+Query OK, 0 rows affected (0.13 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc employee
+    -> desc employee;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'desc employee' at line 2
+mysql> desc employee;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| emp_no    | varchar(255) | NO   | PRI | NULL    |       |
+| emp_name  | varchar(255) | YES  |     | NULL    |       |
+| dob       | date         | YES  |     | NULL    |       |
+| adress    | text         | YES  |     | NULL    |       |
+| mobile_no | int(11)      | YES  |     | NULL    |       |
+| dept_no   | varchar(10)  | YES  | MUL | NULL    |       |
+| salary    | int(11)      | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc oders;
++------------+--------------+------+-----+---------+-------+
+| Field      | Type         | Null | Key | Default | Extra |
++------------+--------------+------+-----+---------+-------+
+| oder_id    | int(11)      | NO   | PRI | NULL    |       |
+| odernumber | varchar(255) | NO   |     | NULL    |       |
+| person_id  | int(11)      | YES  | MUL | NULL    |       |
++------------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> desc persons;
++-----------+---------------+------+-----+---------+-------+
+| Field     | Type          | Null | Key | Default | Extra |
++-----------+---------------+------+-----+---------+-------+
+| person_id | int(11)       | NO   | PRI | NULL    |       |
+| name      | varchar(255)  | NO   |     | NULL    |       |
+| aadhar    | decimal(12,0) | NO   | UNI | NULL    |       |
+| age       | int(11)       | YES  |     | NULL    |       |
++-----------+---------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> desc department;
++-----------+--------------+------+-----+---------+-------+
+| Field     | Type         | Null | Key | Default | Extra |
++-----------+--------------+------+-----+---------+-------+
+| dept_no   | varchar(255) | NO   | PRI | NULL    |       |
+| dept_name | varchar(255) | YES  |     | NULL    |       |
+| location  | varchar(255) | YES  |     | NULL    |       |
++-----------+--------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> 
+
